@@ -1,0 +1,305 @@
+<html>
+<head>
+    <style>
+    :root
+    {
+        --main-color:#3FB8AF;
+    }
+    body 
+    {
+        margin: 0;
+        padding: 0;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        background-color:#EDEDED;
+    }
+    
+    .page-header
+    {
+        background-color:var(--main-color);
+        text-align: center;
+
+    }
+
+    .title
+    {
+        color:white;
+        font-size:  2.25rem;
+        margin:0px;
+        font-weight: normal;
+    }
+
+
+
+    /*****************************
+     Nav
+     *****************************/
+     
+    nav
+    {
+        background-color:#7FC7AF;    
+        display: flex;
+        justify-content: center;
+    }
+    .navigation-list
+    {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        list-style-type:none;
+        margin:auto;
+        padding:0px;
+        
+    }
+    .navigation-list-item
+    {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        padding: 0.75em;
+        font-size: 1.5rem;
+        flex-grow: 1;
+        color:white;
+
+    }
+    .navigation-list-item:hover, .navigation-list-item.selected
+    {
+       
+        border-bottom: solid 0.25em;
+        border-bottom-color:#DAD8A7;
+        cursor: pointer;
+
+    }
+
+
+    .main-grid
+    {
+        padding: 0.5rem;
+        display: grid;
+        grid-gap:0.75rem;
+        grid-template-columns: repeat(auto-fill, minmax(20rem, 1fr));
+        max-width: 1280px;
+        margin: auto;
+
+    }
+    
+    .card
+    {
+        padding: 0.5em;
+        box-shadow: 0 0 10px #7c7c7c; 
+        background-color: white;
+        display: flex;
+        flex-direction: column;
+    }
+    .card-heading
+    {
+        font-size: 1.75rem;
+        font-weight: 700;
+        padding:0px;
+        margin: 0px;
+    }
+
+    .card-picture img
+    {
+        width:100%;
+        margin-top: 0.5em;
+    }
+
+    .card-footer
+    {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: none;
+        flex-flow: space-between;
+        justify-content: flex-end;
+    }
+    .card-icon-container
+    {
+        display: flex;
+        flex-direction: row;
+        font-size: 1.5rem;
+
+    }
+
+    .card-icon-container i
+    {
+        margin: 0.25em;
+        cursor: pointer;
+    }
+    .card-icon-container i.fa-heart:hover,.card-icon-container i.fas.fa-heart
+    {
+       color:red;
+    }
+    .card-icon-container i.fa-comment:hover
+    {
+       color:darkgray;
+    }
+    .card-icon-container i.fa-link:hover
+    {
+       color:grey;
+    }
+
+
+    .add-profile
+    {
+        padding: 0.75em;
+        font-size: 1.25rem;
+        border-radius: 1em;
+        color: white;
+        background-color:var(--main-color);
+        cursor: pointer;
+        position: fixed;
+        right:0px;
+        bottom: 0px;
+    }
+
+    .add-profile:hover
+    {
+        background-color: darkcyan;
+    }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog==" crossorigin="anonymous" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+
+    <header class="page-header">
+        <h1 class="title">Good Boys</h1>
+        <!-- <nav>
+            <ul class="navigation-list">
+                <li class="navigation-list-item selected"> 
+                    Home
+                </li>
+                <li class="navigation-list-item">
+                    About
+                </li>
+                <li class="navigation-list-item">
+                    Contact Us
+                </li>
+        </nav> -->
+    </header>
+
+
+    <main>
+        <div class="main-grid">
+            <!-- ko foreach: Profiles -->
+                <div class="card">
+                    <h2 data-bind="text:Name" class="card-heading">Dog</h2>
+                    <picture class="card-picture">
+                            <source data-bind="attr:{srcset:ImageUrl}" />
+                            <img alt="Dog">
+                    </picture>
+                    <div class="card-footer">
+                        <div class="card-icon-container">
+                                <!-- ko if: Liked() -->
+                                <i data-bind="click: ToggleLike" class="fas fa-heart"></i>
+                                <!-- /ko -->
+                                <!-- ko ifnot: Liked() -->
+                                <i data-bind="click: ToggleLike" class="far fa-heart"></i>
+                                <!-- /ko -->
+                                <i class="far fa-comment"></i>
+                                <i class="fas fa-link"></i>  
+                        </div>
+                    </div>
+                
+                </div>
+            <!-- /ko -->
+        </div>
+        <button data-bind="click:AddProfile" class="add-profile">Add Good Boy +</button>
+    </main>
+
+    <footer>
+        
+    </footer>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/knockout/3.5.1/knockout-latest.js" integrity="sha512-2AL/VEauKkZqQU9BHgnv48OhXcJPx9vdzxN1JrKDVc4FPU/MEE/BZ6d9l0mP7VmvLsjtYwqiYQpDskK9dG8KBA==" crossorigin="anonymous"></script>
+    <script>
+
+        let vm = new MainViewModel();
+        ko.applyBindings(vm);
+
+        let goodBoyAccessor = new GoodBoyAccessor();
+
+
+        function MainViewModel()
+        {
+            let self = this;
+            this.Profiles = ko.observableArray([]);
+            this.Loading = ko.observable(false);
+
+
+            this.AddProfile = function() {
+                goodBoyAccessor
+                .getGoodBoy()
+                .then(function(goodBoy){
+                    self.Profiles.push(new ProfileViewModel(goodBoy));
+                })
+                .catch(error =>{
+                    console.error("Uh oh, something went wrong when fetching a good boy!",error);
+                });
+            }
+        }
+
+        function ProfileViewModel(data)
+        {
+            let self = this;
+            this.Name = data.Name;
+            this.ImageUrl = data.ImageUrl;
+            this.Liked = ko.observable(false);
+            this.ToggleLike = function()
+            {
+                self.Liked(!self.Liked());
+            }
+        }
+
+        function GoodBoyAccessor()
+        {
+            let self = this;
+            //let nameApiUrl = 'https://api.namefake.com/english-australian/male';
+            let nameApiUrl = 'https://random.api.randomkey.io/v1/name/full';
+            let dogApiImageUrl = 'https://dog.ceo/api/breeds/image/random';
+            
+            this.getGoodBoy = function()
+            {   
+                let nameProm = self.getName();
+                let imageProm = self.getImageUrl();
+                return Promise
+                .all([nameProm,imageProm])
+                .then(function(values)
+                {
+                    //console.log(values);
+                    return {
+                        "Name" : values[0]
+                        ,"ImageUrl" : values[1]
+                    };
+                });
+            }
+            this.getName = function()
+            {
+                let dogNames = ["BUDDY","MAX","SADIE","LUCY","BAILEY","DAISY","LUNA","CHARLIE","MAGGIE","MOLLY","COOPER","GINGER","JACK","WILLOW","ABBY","BEAR","LILY","DUKE","KODA","ROCKY","CHLOE","KENAI","HARLEY","DENALI","TOBY","JAKE","LOKI","RUBY","ROXY","LUCKY","PENNY","RILEY","SHADOW","SOPHIE","LOLA","ROSIE","PEPPER","COCO","GUS","LADY","BANDIT","GRACIE","JASPER","PIPER","STELLA","YUKON","ZOEY","ANNIE","BUSTER"]
+
+                // let header = new Headers({
+                //         'Access-Control-Allow-Origin':'*',
+                // });
+                // let fetchOptions={
+                //     method:'GET',
+                //     mode: 'cors',
+                //     header: header,
+                // };
+                // return fetch(nameApiUrl,fetchOptions)
+                // .then(response => response.json())
+                // .then(function(data){
+                //     return data.name;
+                // });
+                console.log(Math.round(Math.random() * 10))
+                return Promise.resolve(dogNames[(Math.round(Math.random() * 10) % dogNames.length)]);
+            }
+
+            this.getImageUrl = function()
+            {
+                return fetch(dogApiImageUrl)
+                .then(response => response.json())
+                .then(function(data){
+                    return data.message;
+                });
+            }
+        }
+    </script>
+</body>
+</html>
