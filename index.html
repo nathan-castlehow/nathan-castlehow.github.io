@@ -1,10 +1,28 @@
 <html>
 <head>
-    <title> Is Thursday a thing?
+    <title> Is Thursday a thing?</title>
     <meta property="og:title" content="Is Thursday a thing?" />
     <meta property="og:description" content="Your definitive guide to whether thursday is actually a thing?" />
     <!-- <meta property="og:image" content="https://www.YourCustomImage.jpg"/> -->
 </head>
 <body>
+    <h1 id="responseHeader"></h1>
+    <button onclick="UpdateResponse()"> Try Again? </button>
+
+    <script>
+        // responses
+        var currentOptionIndex = -1;
+        var responseOptions = ["No.","Nup","Nada", "No Bueno"];
+        
+        //elements
+        var responseElement = document.getElementById("responseHeader");
+
+        function UpdateResponse()
+        {
+            currentOptionIndex = ++currentOptionIndex % responseOptions.length;
+            responseElement.innerText = responseOptions[currentOptionIndex]
+        }
+        UpdateResponse();
+       </script>
 </body>
 </html>
