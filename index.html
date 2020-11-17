@@ -4,25 +4,103 @@
     <meta property="og:title" content="Is Thursday a thing?" />
     <meta property="og:description" content="Your definitive guide to whether thursday is actually a thing?" />
     <!-- <meta property="og:image" content="https://www.YourCustomImage.jpg"/> -->
+    <style>
+    *{
+        text-align: center;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif
+    }
+    #responseHeader
+    {
+        font-size: 5rem;
+        color:#092018;
+    }
+
+    #updateResponseButton
+    {
+        font-size: 3rem;
+        padding: 0.15em 1.5em;
+        background-color: #0048BB;
+        border-radius: 0.35em;
+        color:white;
+        cursor: pointer;
+        position: relative;
+        font-weight: 600;
+        flex-grow: 0;
+        align-self: center;
+    }
+    #updateResponseButton:focus
+    {
+        outline:none;
+    }
+    body
+    {
+            /* width:100%;
+            height:100%; */
+            display: flex;
+            flex-direction: column;           
+    }
+    
+    main
+    {
+        margin:auto;
+    }
+    </style>
 </head>
 <body>
+    <!-- hmmm and now you are reading my markup?  PS. Thursday is not a thing.-->
     <h1 id="responseHeader"></h1>
-    <button onclick="UpdateResponse()"> Try Again? </button>
+    <button id="updateResponseButton" onclick="UpdateState()">Retry?</button>
+
 
     <script>
-        // responses
+        //state
         var currentOptionIndex = -1;
-        var responseOptions = ["No.","Nup","Nada", "No Bueno"];
+        var currentClickCount = 0;
+
+        // responses
+        var responseOptions = ["No.","Nup.","Nada.", "No Bueno.", "Nah."];
         
         //elements
         var responseElement = document.getElementById("responseHeader");
+        var buttonElement = document.getElementById("updateResponseButton");
+
+        function UpdateState()
+        {
+            UpdateClickCount();
+            UpdateResponse();
+        }
+
+        function UpdateClickCount()
+        {
+            currentClickCount++;
+
+            if(currentClickCount == 10)
+            {
+                buttonElement.classList.add("bounce");
+            }
+        }
 
         function UpdateResponse()
         {
             currentOptionIndex = ++currentOptionIndex % responseOptions.length;
-            responseElement.innerText = responseOptions[currentOptionIndex]
+            responseElement.innerText = responseOptions[currentOptionIndex];
         }
         UpdateResponse();
-       </script>
+
+        console.log("%cWhy hello there, what are you doing in my logs?", "color:#8AB339")
+        console.log("%cPS. Thursday is not a thing!","color:#8AB339")
+        console.log(`%c            
+        ~+
+        
+                         *       +
+                   '                  |
+               ()    .-.,="''"=.    - o -
+                     '=/_       \     |
+                  *   |  '=._    |
+                       \     '=./',        '
+                    .   '=.__.=' '='      *
+           +                         +
+                O      *        '       .`,"color:#8AB339" )
+    </script>
 </body>
 </html>
